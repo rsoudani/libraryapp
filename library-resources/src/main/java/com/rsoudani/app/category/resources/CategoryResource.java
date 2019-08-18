@@ -1,11 +1,15 @@
 package com.rsoudani.app.category.resources;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.rsoudani.app.category.exception.CategoryExistentException;
 import com.rsoudani.app.category.exception.CategoryNotFoundException;
 import com.rsoudani.app.category.model.Category;
 import com.rsoudani.app.category.services.CategoryServices;
 import com.rsoudani.app.common.exception.FieldNotValidException;
 import com.rsoudani.app.common.json.JsonUtils;
+import com.rsoudani.app.common.json.JsonWriter;
 import com.rsoudani.app.common.json.OperationResultJsonWriter;
 import com.rsoudani.app.common.model.HttpCode;
 import com.rsoudani.app.common.model.OperationResult;
@@ -14,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.Response;
+
+import java.util.List;
 
 import static com.rsoudani.app.common.model.StandardsOperationResults.*;
 
@@ -97,5 +103,28 @@ public class CategoryResource {
             httpCode = HttpCode.NOT_FOUND;
         }
         return Response.status(httpCode.getCode()).entity(OperationResultJsonWriter.toJson(result)).build();
+    }
+
+    public Response findAll() {
+        log.debug("Returning all categories");
+        List<Category> categories = categoryServices.findAll();
+        log.debug("Found {} categories", categories.size());
+
+        JsonElement jsonWithPagingAndEntries = getJsonElementWithPagingAndEntries(categories);
+        result = OperationResult.success(jsonWithPagingAndEntries);
+
+        return Response.status(HttpCode.OK.getCode()).entity(JsonWriter.writeToString(jsonWithPagingAndEntries)).build();
+    }
+
+    private JsonElement getJsonElementWithPagingAndEntries(List<Category> categories) {
+        JsonObject jsonWithPagingAndEntries = new JsonObject();
+
+        JsonObject jsonPaging = new JsonObject();
+        jsonPaging.addProperty("totalRecords", categories.size());
+
+        jsonWithPagingAndEntries.add("paging", jsonPaging);
+        jsonWithPagingAndEntries.add("entries", categoryJsonConverter.convertToJsonElement(categories));
+
+        return jsonWithPagingAndEntries;
     }
 }

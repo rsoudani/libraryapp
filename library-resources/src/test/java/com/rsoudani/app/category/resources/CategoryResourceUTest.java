@@ -13,8 +13,10 @@ import org.mockito.MockitoAnnotations;
 
 import javax.ws.rs.core.Response;
 
-import static com.rsoudani.app.commontests.category.CategoryForTestsRepository.categoryWithId;
-import static com.rsoudani.app.commontests.category.CategoryForTestsRepository.java;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static com.rsoudani.app.commontests.category.CategoryForTestsRepository.*;
 import static com.rsoudani.app.commontests.utils.FileTestNameUtils.getPathFileRequest;
 import static com.rsoudani.app.commontests.utils.FileTestNameUtils.getPathFileResponse;
 import static com.rsoudani.app.commontests.utils.JsonTestUtils.*;
@@ -116,6 +118,23 @@ public class CategoryResourceUTest {
         assertThat(response.getStatus(), equalTo(HttpCode.NOT_FOUND.getCode()));
         assertJsonResponseWithFile(response, "categoryNotFound.json");
     }
+
+    @Test
+    public void findAllNoCategories(){
+        when(categoryServices.findAll()).thenReturn(new ArrayList<>());
+        Response response = categoryResource.findAll();
+        assertThat(response.getStatus(), equalTo(HttpCode.OK.getCode()));
+        assertJsonResponseWithFile(response, "emptyListOfCategories.json");
+    }
+
+    @Test
+    public void findAll(){
+        when(categoryServices.findAll()).thenReturn(Arrays.asList(categoryWithId(java(), 1L), categoryWithId(networks(), 2L)));
+        Response response = categoryResource.findAll();
+        assertThat(response.getStatus(), equalTo(HttpCode.OK.getCode()));
+        assertJsonResponseWithFile(response, "twoCategories.json");
+    }
+
     private void assertJsonResponseWithFile(Response response, String filename) {
         assertJsonMatchesFileContent(response.getEntity().toString(), getPathFileResponse(PATH_RESOURCE_CATEGORIES, filename));
 

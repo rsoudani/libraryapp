@@ -1,0 +1,5 @@
+
+±%squid:RedundantThrowsDeclarationCheck"ÅRemove the declaration of thrown exception 'com.rsoudani.app.common.exception.InvalidJsonException' which is a runtime exception.(ÏÆ‘©
+±%squid:RedundantThrowsDeclarationCheck"ÅRemove the declaration of thrown exception 'com.rsoudani.app.common.exception.InvalidJsonException' which is a runtime exception.(Öûéñ
+±%squid:RedundantThrowsDeclarationCheck"ÅRemove the declaration of thrown exception 'com.rsoudani.app.common.exception.InvalidJsonException' which is a runtime exception.(√â˝»
+Osquid:S1118":Add a private constructor to hide the implicit public one.(∑å…

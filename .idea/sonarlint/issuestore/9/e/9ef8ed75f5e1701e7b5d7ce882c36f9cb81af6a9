@@ -1,0 +1,6 @@
+
+ysquid:S1488"]Immediately return this expression instead of assigning it to the temporary variable "build".(§–»8ëíÖúÉ-
+fsquid:HiddenFieldCheck":Rename "result" which hides the field declared at line 32.(çì÷Œüÿÿÿÿ8ëíÖúÉ-
+`squid:HiddenFieldCheck":Rename "result" which hides the field declared at line 32.(²ì´8ëíÖúÉ-
+`squid:HiddenFieldCheck":Rename "result" which hides the field declared at line 32.(²ì´8ëíÖúÉ-
+_squid:UselessImportCheck"6Remove this unused import 'com.google.gson.JsonArray'.(ÎöêŠ8ëíÖúÉ-
